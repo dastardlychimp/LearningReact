@@ -4,7 +4,10 @@ import './index.css';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './rootReducer';
-import RootComponent from './RootComponent'
+import RootComponent from './RootComponent';
+import About from './components/About';
+import { Router, Route, browserHistory, hashHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 
 const store = createStore(
     rootReducer,
@@ -12,11 +15,17 @@ const store = createStore(
     (window.devToolsExtension ? window.devToolsExtension() : undefined)
 ); 
 
+const history = syncHistoryWithStore(browserHistory, store);
+
 const render = () => {
     ReactDOM.render(
-      <Provider store={store}>
-          <RootComponent />
-      </Provider>,
+        <Provider store={store}>
+            <Router history={history}>
+                <Route path="/home" component={RootComponent}>
+                    <Route path="/home/about" component={About}/>
+                </Route>
+            </Router>
+        </Provider>,
       document.getElementById('root')
     );
 }
