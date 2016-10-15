@@ -14,8 +14,10 @@ const initialState = {
 
 function reducer(state = initialState, action) {
     switch(action.type) {
-        case 'DECLARE_CHALLENGE':
+        case 'CHALLENGE':
             return challenge(state, action)
+        case 'ISSUE_CHALLENGE':
+            return issueChallenge(state, action)
         case 'RESULTS':
             return results(state, action)
         default:
@@ -31,7 +33,9 @@ function results(state, action) {
     order = moveWinnerUp()
     return Object.assign({}, state, {
         playerOrder: order,
-        pendingChallenge: false
+        pendingChallenge: false,
+        challenger: false,
+        challenged: false
     });
 
     function moveLoserDown(order, loser) {
@@ -51,11 +55,15 @@ function results(state, action) {
     }
 }
 
+function issueChallenge(state, action) {
+    return Object.assign({}, state, {
+        challenged: action.challenged
+    })
+}
+
 function challenge(state, action) {
     return Object.assign({}, state, {
-        pendingChallenge: true,
-        challenger: action.challenger,
-        challenged: action.challenged
+        challenger: action.challenger
     })
 }
 
@@ -69,6 +77,8 @@ Array.prototype.move = function (oldIndex, newIndex) {
     this.splice(new_index, 0, this.splice(oldIndex, 1)[0])
     return this
 }
+
+export { reducer }
 /*
 current reorder rules are:
     1. loser moves down a level switching with person below.

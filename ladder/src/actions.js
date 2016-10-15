@@ -1,11 +1,19 @@
-function issueChallenge(theyWhoChallenge, theyWhoAreChallenged) {
+function issueChallenge(challenged) {
     return {
         type: 'ISSUE_CHALLENGE',
         payload: {
-            challenger: theyWhoAreChallenged,
-            challenged: theyWhoAreChallenged
+            challenged: challenged
         }
     };
+}
+
+function challenge(challenger) {
+    return {
+        type: 'CHALLENGE',
+        payload: {
+            challenger: challenger
+        }
+    }
 }
 
 function declareWinner(winner, loser) {
@@ -18,4 +26,4 @@ function declareWinner(winner, loser) {
     }
 }
 
-export { issueChallenge, declareWinner };
+export { issueChallenge, declareWinner, challenge };
