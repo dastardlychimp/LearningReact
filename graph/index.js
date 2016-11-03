@@ -2,12 +2,44 @@ const data = require('./data');
 
 var start = Date.now();
 
-function* iterate () {
+function* iterate (start) {
     while(true) {
-        var now = Date.now();
-        var timelapse = now - start;
-        var dataSpot = timelapse / config.time
+        let now = Date.now();
+        let timelapse = now - start;
+        let dataSpot = timelapse / config.time;
+        let currentIndex = Math.floor(spot);
+        let nextIndex = currentIndex + 1;
+        let progressThroughIndex = dataSpot % 1;
+        let currentData = {};
+        for (let category in data[currentIndex]) {
+            let diff = data[nextIndex] - data[currentIndex];
+            currentData[category] = data[currentIndex] + (diff * progressThroughIndex);
+        }
+        yield currentData;
     }
+}
+
+function begin () {
+    start = Date.now();
+}
+
+function run () {
+    let generator = iterate();
+    let currentData = generator.next();
+    if (currentData.status = 'finished') {
+        end();
+    }
+    else {
+        draw(currentData.value);
+    }
+}
+
+function draw () {
+
+}
+
+function end () {
+
 }
 
 const config = {
@@ -29,10 +61,12 @@ const config = {
     currentIndex = Math.floor(spot);
     nextIndex = currentIndex + 1;
     
-    dataSpot = currentDataIndex.split('.
+    progressThroughIndex = spot % 1;
+
+    roadmapA = nextIndex.a - currentIndex.a;
 
     current = {
-        a:
+        a: currentIndex.a + rodamapA * progressThroughIndex;
         b:
     }
 
